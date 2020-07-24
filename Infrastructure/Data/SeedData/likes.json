@@ -1,0 +1,14 @@
+[
+    {
+        "PostId":1,
+        "LikedbyAccountId": 4,
+        "CreatedDate" : "2020-07-20T11:16:40",
+        "IsLiked": true
+    },
+    {
+        "PostId":1,
+        "LikedbyAccountId": 2,
+        "CreatedDate" : "2020-07-20T11:20:40",
+        "IsLiked": true
+    }
+]

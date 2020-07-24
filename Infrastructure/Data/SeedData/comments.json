@@ -1,0 +1,19 @@
+[
+    {
+        
+        "PostId": 1,
+        "AccountId":4,
+        "Description" : "User 4 Commented something important",
+        "CreatedDate" : "2020-07-20T11:15:40",
+        "IsDeleted": false
+    },
+    {
+        
+        "PostId": 1,
+        "AccountId":2,
+        "Description" : "User 5 Commented something important",
+        "CreatedDate" : "2020-07-20T11:22:40",
+        "IsDeleted": false
+    }
+
+]

@@ -1,0 +1,39 @@
+[
+    {
+        "UserName" : "admin",
+        "Password": "P@ssw0rd",
+        "Email": "admin@gmail.com",
+        "AccountType": 1,
+        "CreatedDateTime" : "2020-06-18T17:25:40",
+        "LastLoginDateTime": "2020-07-12T17:25:40",
+        "IsActive": true
+    },
+    {
+        "UserName" : "testuser",
+        "Password": "P@ssw0rd",
+        "Email": "testuser@gmail.com",
+        "AccountType": 2,
+        "CreatedDateTime" : "2020-07-11T17:25:40",
+        "LastLoginDateTime": "2020-07-11T17:25:40",
+        "IsActive": true
+    },
+    {
+        "UserName" : "testuser2",
+        "Password": "P@ssw0rd",
+        "Email": "testuser2@gmail.com",
+        "AccountType": 2,
+        "CreatedDateTime" : "2020-07-12T17:25:40",
+        "LastLoginDateTime": "2020-07-14T17:33:40",
+        "IsActive": true
+    },
+    {
+        "UserName" : "testuser3",
+        "Password": "P@ssw0rd",
+        "Email": "testuser3@gmail.com",
+        "AccountType": 2,
+        "CreatedDateTime" : "2020-07-14T17:16:40",
+        "LastLoginDateTime": "2020-07-14T17:16:40",
+        "IsActive": true
+    }
+
+  ]
