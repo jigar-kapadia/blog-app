@@ -1,0 +1,33 @@
+<nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    
+    <a class="navbar-brand" [routerLink]="['']" [class.text-black-50]="changeColor">
+      <img style="width: 20px;height: 20px;margin-bottom: 3px;" src="../../../../assets/images/blogger.svg">loggistan</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" 
+    data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" 
+    aria-expanded="false" aria-label="Toggle navigation">
+      <i class="fa fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+        <ng-container *ngIf="1 !== 1;else noUser">
+          <li class="nav-item">
+              <a class="nav-link" [ngClass]="{'text-black-50' : changeColor, '': !changeColor }"> Welcome TestUser</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [class.text-black-50]="changeColor">Logout</a>
+          </li>
+        </ng-container>
+        
+        <ng-template #noUser>
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['/account/login']" [class.text-black-50]="changeColor">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['/account/register']" [class.text-black-50]="changeColor">Register</a>
+          </li>
+        </ng-template>
+      </ul>
+    </div>
+  </div>
+</nav>
