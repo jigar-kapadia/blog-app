@@ -36,7 +36,15 @@ namespace Api.Controllers
         //var response = new Pagination<Post>(postParams.PageSize, postParams.PageIndex, 0, posts);
         var accId = Request.Headers["accountid"].ToString();
         var postsDto = _mapper.Map<List<Post>, List<PostDto>>(posts);
-        postsDto = postsDto.Select(x =>
+        //Sorting
+        postsDto = postsDto.OrderByDescending(x => x.CreatedDate).ToList();
+
+        //Paging
+        postsDto = postsDto.Skip(postParams.PageIndex - 1 * postParams.PageSize)
+                    .Take(postParams.PageSize).ToList();
+        
+
+        postsDto = postsDto?.Select(x =>
         {
             x.IsCurrentUserLiked = x.LikesList.Any(x => x.AccountId == Convert.ToInt32(accId));
             return x;
@@ -48,6 +56,7 @@ namespace Api.Controllers
     public async Task<ActionResult<PostDto>> CreatePost(PostRequestDto postDto)
     {
         postDto.CreatedDate = DateTime.Now;
+        //postDto.
         var post = await _postRepository.CreatePostAsync(_mapper.Map<PostRequestDto, Post>(postDto));
 
         return Ok(_mapper.Map<Post, PostDto>(post));

@@ -8,7 +8,7 @@ import { CreatePostComponent } from './create-post/create-post.component';
 
 const routes: Routes = [
   { path: '', component: BlogComponent },
-  { path: ':id', component: PostComponent },
+  { path: 'post', component: PostComponent },
   { path: 'create', component: CreatePostComponent }
 ]
 

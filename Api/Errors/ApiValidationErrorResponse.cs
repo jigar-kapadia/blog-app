@@ -10,6 +10,6 @@ namespace Api.Errors
 
         }
 
-        public IEnumerable<string> Errors { get; set; }
+        public string[] Errors { get; set; }
     }
 }

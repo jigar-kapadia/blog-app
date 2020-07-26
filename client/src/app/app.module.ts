@@ -5,6 +5,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
 
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { CoreModule } from './core/core.module';
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -12,8 +17,15 @@ import { SharedModule } from './shared/shared.module';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
-    SharedModule
+    SharedModule,
+    HttpClientModule,
+    CoreModule,
+    ToastrModule.forRoot({
+      positionClass : 'toast-bottom-right',
+      preventDuplicates : true
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

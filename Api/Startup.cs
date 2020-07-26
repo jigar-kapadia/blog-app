@@ -22,6 +22,7 @@ using Api.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Api.Errors;
 
 namespace Api
 {
@@ -43,6 +44,19 @@ namespace Api
             services.AddScoped<ICommentRepository, CommentRepository>();
             services.AddScoped<ILikesRepository, LikesRepository>();
             services.AddScoped<IAccountRepository, AccountRepository>();
+            services.Configure<ApiBehaviorOptions>(options => 
+            {
+                options.InvalidModelStateResponseFactory = actionContext => {
+                   var errors = actionContext.ModelState
+                                .Where(error => error.Value.Errors.Count > 0)
+                                .SelectMany(x => x.Value.Errors).Select(x => x.ErrorMessage).ToArray();
+                  var errorReponse = new ApiValidationErrorResponse(){
+                      Errors = errors
+                  };
+
+                  return new BadRequestObjectResult(errorReponse);
+                };
+            });
             services.AddControllers();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options => {
@@ -61,7 +75,7 @@ namespace Api
             services.AddSwaggerDocumentation();
             services.AddCors(options => {
                 options.AddPolicy("CorsPolicy", policy => {
-                    policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200");
+                    policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200");
                 });
             });
         }

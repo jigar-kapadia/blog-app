@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
 import { HelperService } from './core/services/helper.service';
+import { AccountService } from './account/account.service';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +11,7 @@ import { HelperService } from './core/services/helper.service';
 export class AppComponent implements OnInit {
   title = 'client';
   showHeader = false;
-  constructor(private router: Router, private helperService: HelperService) {
+  constructor(private router: Router, private helperService: HelperService, private accountService: AccountService) {
     router.events.forEach((event) => {
       if (event instanceof NavigationStart) {
 
@@ -26,5 +27,9 @@ export class AppComponent implements OnInit {
       }
     });
   }
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    const token = localStorage.getItem('token');
+    const id = localStorage.getItem('id');
+    this.accountService.loadCurrentUser(token, id);
+  }
 }

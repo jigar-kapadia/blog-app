@@ -10,12 +10,12 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav ml-auto">
-        <ng-container *ngIf="1 !== 1;else noUser">
+        <ng-container *ngIf="(currentUser$ | async) !== null ;else noUser">
           <li class="nav-item">
-              <a class="nav-link" [ngClass]="{'text-black-50' : changeColor, '': !changeColor }"> Welcome TestUser</a>
+              <a class="nav-link" [ngClass]="{'text-black-50' : changeColor, '': !changeColor }"> Welcome {{ (currentUser$ | async).userName }}</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" [class.text-black-50]="changeColor">Logout</a>
+            <a class="nav-link" [class.text-black-50]="changeColor" (click)="logout()">Logout</a>
           </li>
         </ng-container>
         

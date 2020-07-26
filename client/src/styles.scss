@@ -2,6 +2,7 @@
 @import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 @import "../node_modules/ngx-bootstrap/datepicker/bs-datepicker.css";
 @import "../node_modules/font-awesome/css/font-awesome.min.css";
+@import "../node_modules/ngx-toastr/toastr.css";
 
 /*!
  * Start Bootstrap - Clean Blog v5.0.9 (https://startbootstrap.com/themes/clean-blog)
@@ -138,6 +139,8 @@
     #mainNav .navbar-nav > li.nav-item > a:focus, #mainNav .navbar-nav > li.nav-item > a:hover {
       color: rgba(255, 255, 255, 0.8);
     }
+
+   
   }
   
   @media only screen and (min-width: 992px) {
@@ -308,8 +311,25 @@
     text-decoration: underline;
     color: #0085A1;
   }
+  @media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+    div.toast-message {
+      font-size: smaller;
   
+  
+      //.toast-container .ngx-toastr
+      //height: 54px;
+      //    width: 203px;
+    }
+    .ngx-toastr{
+      height: 54px !important;
+       width: 203px !important;
+    }
+  }
+
+
   @media only screen and (min-width: 768px) {
+    
     .post-preview > a > .post-title {
       font-size: 36px;
     }
@@ -412,4 +432,23 @@
     font-size: 16px;
     padding: 25px 35px;
   }
+
+  span.text-danger {
+    font-size: smaller;
+  }
+
+  button:disabled {
+    cursor: not-allowed;
+  }
   
+  ul.text-danger{
+    font-size: smaller;
+  }
+
+  #toast-container > div {
+    opacity:1;
+  }
+
+ 
+
+ 

@@ -1,3 +1,30 @@
-<p>
-  create-post works!
-</p>
+
+<div class="container py-5">
+  <form class="pt-5" [formGroup]="postForm" (ngSubmit)="onSubmit()">
+    <div class="text-center mb-4">
+      <h1 class="h3 mb-3">Create Post</h1>
+    </div>
+    <div class="form-group">
+      <label for="exampleFormControlInput1">Title</label>
+      <input type="text" class="form-control" id="exampleFormControlInput1" formControlName="title"
+      [ngClass]="postForm.get('title').touched ? postForm.get('title').invalid  ? 'is-invalid' : 'is-valid': null">
+      <span class="text-danger" *ngIf="postForm.get('title').invalid 
+      && postForm.get('title').touched && postForm.get('title').errors['required']">
+         Title is mandatory
+      </span>
+    </div>
+
+    <div class="form-group">
+      <label for="exampleFormControlTextarea1">Description</label>
+      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" formControlName="description"
+      [ngClass]="postForm.get('description').touched ? postForm.get('description').invalid  ? 'is-invalid' : 'is-valid': null">
+    </textarea>
+      <span class="text-danger" *ngIf="postForm.get('description').invalid 
+                && postForm.get('description').touched && postForm.get('description').errors['required']">
+                    Description is mandatory
+                </span>
+    </div>
+
+    <button type="submit" class="btn btn-primary" [disabled]="postForm.invalid">Create</button>
+  </form>
+</div>

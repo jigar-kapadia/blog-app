@@ -10,7 +10,6 @@ export class HelperService {
   constructor() { }
 
   isColorChange(val){
-    console.log(val);
     
     this.currentUrlSubject.next(val);
   }

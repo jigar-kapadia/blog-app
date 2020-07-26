@@ -1,21 +1,56 @@
 
 <div class="container py-5">
-  <form class="pt-5">
-    <div class="form-group">
-      <label for="exampleInputEmail1">Email address</label>
-      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-      <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+  <form class="pt-5" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+
+    <div class="text-center mb-4">
+      <h1 class="h3 mb-3 font-weight-normal">Register</h1>
     </div>
 
     <div class="form-group">
       <label for="exampleInputEmail1">Username</label>
-      <input type="email" class="form-control" id="exampleInputUsername1" aria-describedby="usernameHelp" placeholder="Enter username">
+      <input type="email" class="form-control" id="exampleInputUsername1" aria-describedby="usernameHelp" 
+      placeholder="Enter username" formControlName="userName"
+      [ngClass]="registerForm.get('userName').touched ? registerForm.get('userName').invalid  ? 'is-invalid' : 'is-valid': null">
+      <span class="text-danger" *ngIf="registerForm.get('userName').invalid 
+      && registerForm.get('userName').touched && registerForm.get('userName').errors['required']">
+          Username is required
+      </span>
+    </div>
+
+    <div class="form-group">
+      <label for="exampleInputEmail1">Email address</label>
+      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+       placeholder="Enter email" formControlName="email"
+       [ngClass]="registerForm.get('email').touched ? registerForm.get('email').invalid  ? 'is-invalid' : 'is-valid': null">
+       <span class="text-danger" *ngIf="registerForm.get('email').invalid 
+       && registerForm.get('email').touched && registerForm.get('email').errors['required']">
+           Email Address is required
+       </span>
+       <span class="text-danger" *ngIf="registerForm.get('email').invalid 
+       && registerForm.get('email').touched && registerForm.get('email').errors['pattern']">
+           Email Address is not valid
+       </span>
+       <span class="text-danger" *ngIf="registerForm.get('email').hasError('emailExists') 
+       && registerForm.get('email').touched">
+           Email Address already exists
+       </span>
     </div>
 
     <div class="form-group">
       <label for="exampleInputPassword1">Password</label>
-      <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+      <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password"
+      formControlName="password"
+      [ngClass]="registerForm.get('password').touched ? registerForm.get('password').invalid  ? 'is-invalid' : 'is-valid': null">
+      <span class="text-danger" *ngIf="registerForm.get('password').invalid 
+                && registerForm.get('password').touched && registerForm.get('password').errors['required']">
+                    Password is required
+                </span>
     </div>
-    <button type="submit" class="btn btn-primary">Register</button>
+
+    <ul class="text-danger list-unstyled" *ngIf="formErrors">
+      <li *ngFor="let item of formErrors">{{item}}</li>
+    </ul>
+
+    <button type="submit" class="btn btn-primary" [disabled]="registerForm.invalid">Register</button>
   </form>
 </div>
