@@ -4,6 +4,6 @@ namespace Core.Interfaces
 {
     public interface ITokenService
     {
-         string CreateToken(Account user);
+         string CreateToken(string email, string password);
     }
 }

@@ -19,8 +19,9 @@ namespace Api.DTO
 
         public int TotalLikes { get; set; }
 
-        public List<string> LikesList { get; set; }
+        public List<LikesDto> LikesList { get; set; }
         //Change from List<string> to List<CommentDto>
         public List<CommentDto> Comments { get; set; }
+        public bool IsCurrentUserLiked {get; set;}
     }
 }

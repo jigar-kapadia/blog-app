@@ -14,9 +14,13 @@ namespace Infrastructure.Data.Repository
 
         }
 
-        public Task<Account> CreateAccount(Account account)
+     
+
+        public async Task<Account> CreateAccount(Account account)
         {
-            throw new System.NotImplementedException();
+            var accoutCreated = await _appContext.Accounts.AddAsync(account);               
+            await _appContext.SaveChangesAsync();
+            return accoutCreated.Entity;            
         }
 
         public async Task<Account> GetAccountByEmail(string email)

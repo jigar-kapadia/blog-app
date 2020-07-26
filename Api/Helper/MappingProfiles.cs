@@ -20,9 +20,15 @@ namespace Api.Helper
                 CreateMap<Comment, CommentRequestDto>().ReverseMap();
 
                 CreateMap<Comment, CommentDto>()
-                .ForMember(x => x.AccountId, p => p.MapFrom(x => x.Account.Id))
-                .ForMember(x => x.PostId, p => p.MapFrom(x => x.Post.Id))
+                .ForMember(x => x.AccountId, p => p.MapFrom(x => x.AccountId))
+                .ForMember(x => x.PostId, p => p.MapFrom(x => x.PostId))
                 .ForMember(x => x.UserName, p => p.MapFrom(x => x.Account.UserName));
+
+                CreateMap<Like, LikesDto>()
+                .ForMember(x => x.AccountId, p => p.MapFrom(z => z.LikedbyAccountId))
+                .ForMember(x => x.PostId, p => p.MapFrom(z => z.PostId))
+                .ForMember(x => x.UserName, p => p.MapFrom(z => z.LikedbyAccount.UserName));
+
 
         }
     }

@@ -31,7 +31,7 @@ namespace Infrastructure.Data
             .HasOne(x => x.Account)
             .WithMany(x => x.Comments)
             .HasForeignKey(x => x.AccountId)
-            .OnDelete(DeleteBehavior.Restrict);    
+            .OnDelete(DeleteBehavior.Restrict); 
             
              modelBuilder.Entity<Like>()
             .HasOne(x => x.Post)

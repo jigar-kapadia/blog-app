@@ -37,7 +37,8 @@ namespace Api.Middleware
 
                 var response = _env.IsDevelopment() ?
                 new ApiException((int)HttpStatusCode.InternalServerError, ex.Message, ex.StackTrace.ToString()) :
-                new ApiResponse((int)HttpStatusCode.InternalServerError);
+                new ApiException((int)HttpStatusCode.InternalServerError, ex.Message, ex.StackTrace.ToString());
+                //new ApiResponse((int)HttpStatusCode.InternalServerError);
 
                 var json = JsonConvert.SerializeObject(response, Formatting.Indented,
                 new JsonSerializerSettings()

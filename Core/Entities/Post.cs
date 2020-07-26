@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Core.Entities
 {
     public class Post : BaseEntity
-    {
+    {        
         public Account Account{ get;set; }
         public int AccountId { get; set; }
         public string Title { get; set; }

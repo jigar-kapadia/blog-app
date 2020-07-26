@@ -4,3 +4,5 @@ bin
 *.db
 Api/wwwroot/*
 client/node_modules
+client/dist
+publish

@@ -32,8 +32,11 @@ namespace Infrastructure.Data.Repository
 
         public async Task<List<Comment>> GetCommentsForPost(int postId)
         {
-            var posts = await _appContext.Comments.Where(x => x.PostId == postId)
-            .Include(x => x.Account).Include(x => x.Post).ToListAsync();
+            var posts = await _appContext.Comments
+            .Include(x => x.Account)
+            .Include(x => x.Post)
+            .Where(x => x.PostId == postId)
+            .ToListAsync();
             return posts;
         }
 

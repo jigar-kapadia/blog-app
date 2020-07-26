@@ -17,10 +17,12 @@ namespace Api.Controllers
     {
         private readonly IPostRepository _postRepository;
         private readonly ICommentRepository _commentRepository;
+        private readonly ILikesRepository _likesRepository;
         private readonly IMapper _mapper;
         public PostController(IPostRepository postRepository, IMapper mapper,
-        ICommentRepository commentRepository)
+        ICommentRepository commentRepository, ILikesRepository likesRepository)
         {
+            this._likesRepository = likesRepository;
             _commentRepository = commentRepository;
             _mapper = mapper;
             _postRepository = postRepository;
@@ -30,8 +32,15 @@ namespace Api.Controllers
     public async Task<ActionResult<Pagination<Post>>> GetPosts([FromQuery] PostSpecificationParams postParams)
     {
         var posts = await _postRepository.GetAllPosts();
-        var response = new Pagination<Post>(postParams.PageSize, postParams.PageIndex, 0, posts);
+        //Sort, Paging
+        //var response = new Pagination<Post>(postParams.PageSize, postParams.PageIndex, 0, posts);
+        var accId = Request.Headers["accountid"].ToString();
         var postsDto = _mapper.Map<List<Post>, List<PostDto>>(posts);
+        postsDto = postsDto.Select(x =>
+        {
+            x.IsCurrentUserLiked = x.LikesList.Any(x => x.AccountId == Convert.ToInt32(accId));
+            return x;
+        }).ToList();
         return Ok(postsDto);
     }
 
@@ -91,8 +100,8 @@ namespace Api.Controllers
     public async Task<ActionResult<List<CommentDto>>> GetCommentByPost(int id)
     {
         var comments = await _commentRepository.GetCommentsForPost(id);
-        return Ok(comments);
-    } 
+        return Ok(_mapper.Map<List<Comment>, List<CommentDto>>(comments));
+    }
 
     [HttpPut("{id}/comment")]
     public async Task<ActionResult> UpdateComment(CommentRequestDto commentRequestDto)
@@ -100,15 +109,38 @@ namespace Api.Controllers
         commentRequestDto.CreatedDate = DateTime.Now;
         var commentToCreate = _mapper.Map<CommentRequestDto, Comment>(commentRequestDto);
         var commentUpdated = await _commentRepository.UpdateComment(commentToCreate);
-        return Ok(commentUpdated);
-    } 
+        return Ok(_mapper.Map<Comment, CommentDto>(commentUpdated));
+    }
 
     [HttpDelete("{id}/comment/{commentid}")]
     public async Task<ActionResult> DeleteComment(int commentid)
     {
         await _commentRepository.DeleteComment(commentid);
         return Ok();
-    } 
+    }
+
+    [HttpGet("{id}/like")]
+    public async Task<ActionResult> GetLikesByPost(int id)
+    {
+        var likes = await _likesRepository.GetLikesByPost(id);
+        return Ok(_mapper.Map<List<Like>, List<LikesDto>>(likes));
+    }
+
+
+    [HttpPost("{id}/like")]
+    public async Task<ActionResult> CreateLike(LikesDto likesDto)
+    {
+        var likeObj = new Like { PostId = likesDto.PostId, LikedbyAccountId = likesDto.AccountId, CreatedDate = DateTime.Now, IsLiked = true };
+        await _likesRepository.CreateLikeAsync(likeObj);
+        return Ok();
+    }
+
+    [HttpPut("{id}/like/{likeid}")]
+    public async Task<ActionResult> UpdateLike(int likeId)
+    {
+        await _likesRepository.UpdateLikeAsync(likeId);
+        return Ok();
+    }
 
     // [HttpPut]
     // public async Task<ActionResult<List<PostDto>> UpdatePost(PostRequestDto postRequestDto)
