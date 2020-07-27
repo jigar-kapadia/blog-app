@@ -1,15 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ToastrModule } from 'ngx-toastr';
+import { TruncatePipe } from './pipes/truncate.pipe';
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    TruncatePipe
+  ],
   imports: [
-    CommonModule,
-    
+    CommonModule
   ],
   exports : [
-    
+    TruncatePipe
   ]
 })
 export class CoreModule { }

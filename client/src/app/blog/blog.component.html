@@ -1,33 +1,38 @@
 
 <div class="container">
-  <div class="row">
+  <div class="row d-flex justify-content-around">
   <h1>Posts</h1>
   <button class="btn btn-secondary" (click)="goToPostCreate()">Create Post</button></div>
   <div class="row">
     <div class="col-lg-8 col-md-10 mx-auto">
-      <div class="post-preview">
-        <a href="post.html">
+
+      <div class="post-preview" *ngFor="let post of posts$ | async as list">
+        <a [routerLink]="['post']" [queryParams]="{ id: post.postId }" queryParamsHandling="merge">
+        
           <h3 class="post-title">
-            Man must explore, and this is exploration at its greatest
+            {{ post.title }}
           </h3>
           <h4 class="post-subtitle">
-            Problems look mighty small from 150 miles up
+            {{ post.description | truncate }}
           </h4>
         </a>
         <p class="post-meta">Posted by
-          <a href="#">Start Bootstrap</a>
-          on September 24, 2019</p>
-      </div>
-      <hr>
-      <div class="post-preview">
-        <a href="post.html">
-          <h2 class="post-title">
-            I believe every human has a finite number of heartbeats. I don't intend to waste any of mine.
-          </h2>
-        </a>
-        <p class="post-meta">Posted by
-          <a href="#">Start Bootstrap</a>
-          on September 18, 2019</p>
+          <a href="#">{{post.username}}</a>
+          on {{post.createdDate | date:'MMMM d, y, h:mm:ss a' }}</p>
+
+          <app-likecommentsharecount
+          [likes]="post.likesList.length"
+          [comments]="post.comments.length"
+          [shares]="2"
+          ></app-likecommentsharecount>
+
+          <div class="bg-white pt-2">
+            <div class="d-flex flex-row fs-12">
+                <div class="like p-2 cursor" [class.likedColor]="post.isCurrentUserLiked"><i class="fa fa-thumbs-o-up"></i><span class="ml-1">Like</span></div>
+                <div class="like p-2 cursor"><i class="fa fa-commenting-o"></i><span class="ml-1">Comment</span></div>
+                <div class="like p-2 cursor"><i class="fa fa-share"></i><span class="ml-1">Share</span></div>
+            </div>
+        </div>
       </div>
       <hr>
      

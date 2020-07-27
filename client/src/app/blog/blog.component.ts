@@ -3,6 +3,7 @@ import { NavigationExtras, Router } from "@angular/router";
 import { BlogService } from './blog.service';
 import { PostParams } from '../shared/models/postParams';
 import { Observable } from 'rxjs';
+import { state } from '@angular/animations';
 
 @Component({
   selector: "app-blog",
@@ -14,16 +15,25 @@ export class BlogComponent implements OnInit {
   postParams: PostParams;
   posts$: Observable<any>;
   ngOnInit() {
-
+    this.postParams = this.blogService.postParams;
+    this.getPosts();
+      this.blogService.getPosts()
+      .subscribe(x => console.log(x)
+      );
   }
 
-  getPostParams()
-  {
+  getPosts() {
       this.posts$ = this.blogService.getPosts();
   }
 
   goToPostCreate() {
+    const accountId = localStorage.getItem('id');
+    const token = localStorage.getItem('token');
     localStorage.setItem('p_id', '0');
     this.router.navigate(['blog/create']);
+  }
+
+  goToPost(postId){
+    this.router.navigate(['blog/'], { queryParams : { id: postId }, queryParamsHandling: 'preserve' });
   }
 }

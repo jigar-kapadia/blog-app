@@ -30,6 +30,9 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     const token = localStorage.getItem('token');
     const id = localStorage.getItem('id');
-    this.accountService.loadCurrentUser(token, id);
+    this.accountService.loadCurrentUser(token, id).subscribe(x => {
+      console.log(x);
+      
+    });
   }
 }

@@ -44,7 +44,7 @@ export class CreatePostComponent implements OnInit {
       this.blogService.createPost(post)
       .subscribe(response => {
       console.log(response);
-      this.toastrService.success('Test Toaster Success');
+      this.toastrService.success('Post Created');
       this.router.navigate(['blog']);
       }, err => {
         console.log(err);

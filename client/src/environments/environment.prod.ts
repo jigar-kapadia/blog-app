@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  baseUrl : 'https://bloggistan-api.azurewebsites.net/api/'
+  baseUrl : 'https://blog-api-v1.azurewebsites.net/api/'
 };

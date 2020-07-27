@@ -74,12 +74,12 @@ namespace Api.Controllers
         {
             var user = await _accountRepository.GetAccountByEmail(loginDto.Email);
             if (user == null)
-                return Unauthorized(new ApiResponse(401, "Email/Password incorrect."));
+                return Unauthorized(new ApiResponse(401, "Credentials incorrect."));
             else
             {
                 if (user.Password != loginDto.Password)
                 {
-                    return Unauthorized(new ApiResponse(401, "Email/Password incorrect."));
+                    return Unauthorized(new ApiResponse(401, "Credentials incorrect."));
                 }
             }
 

@@ -1,3 +1,4 @@
+<!--
 <div class="container mt-5">
   <div class="d-flex justify-content-center row">
       <div class="col-md-8">
@@ -24,4 +25,84 @@
           </div>
       </div>
   </div>
-</div>
+</div>  -->
+
+
+
+<div class="container py-5">
+    <div class="row" *ngIf="(post$ | async) as post">
+      <!-- Post Content Column -->
+      <div class="col-lg-12">
+        <!-- Title -->
+        <h2 class="mt-4">{{post.title}}</h2>
+        <!-- Author -->
+        <p class="lead">
+          by
+          <a href="#">{{post.username}}</a>
+        </p>
+
+        <hr>
+
+        <!-- Date/Time -->
+        <p>Posted on {{post.createdDate | date:'MMMM d, y, h:mm:ss a'}}</p>
+
+        <hr>
+
+        <!-- Preview Image -->
+        <!-- <img class="img-fluid rounded" src="http://placehold.it/900x300" alt=""> -->
+
+        <!-- <hr> -->
+
+        <!-- Post Content -->
+        <p>{{post.description}}</p>
+        <hr>
+
+        <!-- <div class="d-flex justify-content-around">
+          <span class="d-inline" *ngIf="(likes$ | async).length > 0"><a href="#"><i class="fa fa-thumbs-o-up mr-1"></i>{{ (likes$ | async).length }}</a></span>
+          <div>
+          <span class="d-inline" *ngIf="(comments$ | async).length > 0">{{ commentsCount }} comments</span>
+          <span class="d-inline ml-2" *ngIf="(comments$ | async).length > 0 && (likes$ | async).length > 0">2 shares</span>
+        </div>
+        </div> -->
+
+        <app-likecommentsharecount [comments]="(comments$ | async).length"
+        [likes]="(likes$ | async).length" 
+        [shares]="2"
+        [isBlog]="false"
+        ></app-likecommentsharecount>
+
+        <hr>
+
+        <!-- Like Share COmment -->
+        <div class="bg-white">
+            <div class="d-flex flex-row fs-12">
+                <div class="like p-2 cursor" [class.likedColor]="post.isCurrentUserLiked"><i class="fa fa-thumbs-o-up" ></i><span class="ml-1">Like</span></div>
+                <div class="like p-2 cursor" (click)="showCommentBox = !showCommentBox"><i class="fa fa-commenting-o"></i><span class="ml-1">Comment</span></div>
+                <div class="like p-2 cursor"><i class="fa fa-share"></i><span class="ml-1">Share</span></div>
+            </div>
+        </div>
+
+    
+        <!-- Comments Form -->
+        
+        <app-create-comment *ngIf="showCommentBox"></app-create-comment>
+        
+        <!-- Single Comment -->
+        <hr>
+
+        <div class="media mb-4 py-3" id="commentsSection" *ngFor="let item of comments$ | async as list">
+          <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+          <div class="media-body">
+            <h5 class="mt-0">{{item.username}}</h5>
+            {{item.description}}
+          </div>
+        </div>
+
+      </div>
+
+
+
+    </div>
+    <!-- /.row -->
+
+  </div>

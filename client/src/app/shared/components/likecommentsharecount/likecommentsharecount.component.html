@@ -1,0 +1,7 @@
+<div class="d-flex justify-content-around" [class.fontSmaller]="isBlog">
+  <div class="d-inline flex-grow-1" *ngIf="likes"><a href="#"><i class="fa fa-thumbs-o-up mr-1"></i>{{ likes }}</a></div>
+  <div>
+  <span class="d-inline" *ngIf="comments">{{ comments }} comments</span>
+  <span class="d-inline ml-2" *ngIf="likes > 0 && comments > 0">{{shares}} shares</span>
+</div>
+</div>

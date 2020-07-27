@@ -323,7 +323,7 @@
     }
     .ngx-toastr{
       height: 54px !important;
-       width: 203px !important;
+       width: 220px !important;
     }
   }
 
@@ -449,6 +449,41 @@
     opacity:1;
   }
 
+  date {
+    font-size: 11px
+}
+
+.comment-text {
+    font-size: 12px
+}
+
+.fs-12 {
+    font-size: 20px
+}
+
+.shadow-none {
+    box-shadow: none
+}
+
+.name {
+    color: #007bff
+}
+
+.cursor:hover {
+    color: cadetblue
+}
+
+.cursor {
+    cursor: pointer
+}
+
+.textarea {
+    resize: none
+}
+
+.likedColor{
+  color: cadetblue;
+}
  
 
  

@@ -46,14 +46,14 @@ export class AccountService {
   loadCurrentUser(token?: string, id? : number | string){
     if(id === null || token === null) { 
       this.currentUserSubject.next(null);
-      return of(null); 
+      return of(null);
     }
     let headers = new HttpHeaders();
     headers = headers.set('Authorization', `Bearer ${token}`);
     headers = headers.set('accountid', id.toString());
     return this.http.get(this.baseUrl + 'account', {headers})
     .pipe(
-      map((user: IUser) => {
+      map((user: any) => {
         localStorage.setItem('token', user.token);
         localStorage.setItem('id', user.accountId.toString());
         this.currentUserSubject.next(user);

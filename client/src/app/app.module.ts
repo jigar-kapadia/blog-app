@@ -9,6 +9,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CoreModule } from './core/core.module';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { PostResolver } from './core/resolvers/post.resolver';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
       preventDuplicates : true
     })
   ],
-  providers: [],
+  providers: [PostResolver],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

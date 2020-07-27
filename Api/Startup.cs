@@ -69,13 +69,14 @@ namespace Api
                     };  
                 });
             services.AddDbContext<Infrastructure.Data.AppContext>(x => 
-                x.UseSqlServer(Configuration.GetConnectionString(Configuration.GetValue<bool>("IsEnvDev") ? 
-                "DefaultConnection" : "DefaultConnectionProd"))
+                // x.UseSqlServer(Configuration.GetConnectionString(Configuration.GetValue<bool>("IsEnvDev") ? 
+                // "DefaultConnection" : "DefaultConnectionProd"))
+                x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
             );
             services.AddSwaggerDocumentation();
             services.AddCors(options => {
                 options.AddPolicy("CorsPolicy", policy => {
-                    policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200");
+                    policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://bloggistan.azurewebsites.net", "http://localhost:4200");
                 });
             });
         }
