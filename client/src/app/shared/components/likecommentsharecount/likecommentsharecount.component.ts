@@ -1,11 +1,11 @@
-import { Component, OnInit, Input, Output } from '@angular/core';
+import { Component, OnInit, Input, Output, OnChanges } from '@angular/core';
 
 @Component({
   selector: 'app-likecommentsharecount',
   templateUrl: './likecommentsharecount.component.html',
   styleUrls: ['./likecommentsharecount.component.scss']
 })
-export class LikecommentsharecountComponent implements OnInit {
+export class LikecommentsharecountComponent implements OnInit, OnChanges {
 
   constructor() { }
   @Input() likes: any;
@@ -16,6 +16,15 @@ export class LikecommentsharecountComponent implements OnInit {
   //@Output() onCommentClick
 
   ngOnInit() {
+    // console.log(this.likes);
+    
   }
+
+  ngOnChanges(){
+    
+    
+  }
+
+
 
 }

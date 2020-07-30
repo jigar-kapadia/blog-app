@@ -10,6 +10,10 @@ import { CoreModule } from './core/core.module';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PostResolver } from './core/resolvers/post.resolver';
+import { ErrorInterceptor } from './core/interceptors/error.interceptor';
+import { LoaderInterceptor } from './core/interceptors/loading.interceptor';
+import { JwtInterceptor } from './core/interceptors/jwt.interceptor';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   declarations: [
@@ -26,9 +30,14 @@ import { PostResolver } from './core/resolvers/post.resolver';
     ToastrModule.forRoot({
       positionClass : 'toast-bottom-right',
       preventDuplicates : true
-    })
+    }),
+    //NgxSpinnerModule
   ],
-  providers: [PostResolver],
+  providers: [PostResolver,
+    // { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi : true },
+    // { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi : true },
+    // { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

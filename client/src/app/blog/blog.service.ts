@@ -36,6 +36,14 @@ export class BlogService {
      return this.http.post(this.baseUrl + 'post', post);
   }
 
+  updatePost(post: any){
+    return this.http.put(this.baseUrl + 'post', post);
+  }
+
+  deletePost(post){
+    return this.http.delete(this.baseUrl + 'post/' + post);
+  }
+
   getPosts(){
     const headers = new HttpHeaders()
     .append('accountid', localStorage.getItem('id') ? localStorage.getItem('id') :'0');
@@ -50,33 +58,46 @@ export class BlogService {
   getPostById(postId){
     const headers = new HttpHeaders()
     .append('accountid', localStorage.getItem('id') ? localStorage.getItem('id') :'0');
-    return this.http.get(this.baseUrl + 'post/' + postId, { headers })
-    .pipe(
-      map(x => {
-        console.log(x);
-        
-        this.currentPost.next(x);
-        return x;
-      })
-    );
+    return this.http.get(this.baseUrl + 'post/' + postId, { headers });
+    // .pipe(
+    //   map(x => {
+    //     this.currentPost.next(x);
+    //     return x;
+    //   })
+    // );
   }
 
   getCommentsByPost(postId){
-    return this.http.get(`${this.baseUrl}post/${postId}/comment`)
-    .pipe(map(x => {
-      this.currentPostComments.next(x);
-      return x;
-    }
-    ));
+    return this.http.get(`${this.baseUrl}post/${postId}/comment`);
+    // .pipe(map(x => {
+    //   this.currentPostComments.next(x);
+    //   return x;
+    // }
+    // ));
   }
 
   getLikesByPost(postId){
-    return this.http.get(`${this.baseUrl}post/${postId}/like`)
-    .pipe(map(x => {
-      console.log(x);
-      this.currentPostLikes.next(x);
-      return x;
-    }
-    ));
+    return this.http.get(`${this.baseUrl}post/${postId}/like`);
+    // .pipe(map(x => {
+    //   this.currentPostLikes.next(x);
+    //   return x;
+    // }
+    // ));
+  }
+
+  likePost(post){
+    return this.http.post(`${this.baseUrl}post/${post.postId}/like`, post);
+  }
+
+  addCommentToPost(comment){
+    return this.http.post(`${this.baseUrl}post/${comment.postId}/comment`, comment);
+  }
+
+  updateComment(comment){
+    return this.http.put(`${this.baseUrl}post/${comment.postId}/comment`, comment);
+  }
+
+  deleteComment(comment){
+    return this.http.delete(`${this.baseUrl}post/${comment.postId}/comment/${comment.id}`);
   }
 }

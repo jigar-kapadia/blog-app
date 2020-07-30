@@ -43,8 +43,10 @@ namespace Infrastructure.Data.Repository
 
         public async Task<Post> GetPostByIdAsync(int postId)
         {
-            return await _appContext.Posts.Include(x => x.Account).Include(x => x.Comments)
-            .Include(x => x.Likes).FirstOrDefaultAsync(x => x.Id == postId);
+            return await _appContext.Posts.Include(x => x.Account)
+            .Include(x => x.Comments)
+            .Include(x => x.Likes)
+            .FirstOrDefaultAsync(x => x.Id == postId);
         }
 
         public async Task<Post> UpdatePostAsync(Post post)

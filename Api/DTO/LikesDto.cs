@@ -1,3 +1,5 @@
+using System;
+
 namespace Api.DTO
 {
     public class LikesDto
@@ -7,7 +9,9 @@ namespace Api.DTO
         public int AccountId { get; set; }
         public string UserName { get; set; }
 
+        public bool IsLiked { get; set; }
 
+        public DateTime CreatedDate { get; set; }
 
     }
 }

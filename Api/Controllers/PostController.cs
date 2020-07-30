@@ -29,7 +29,7 @@ namespace Api.Controllers
         }
 
     [HttpGet]
-    public async Task<ActionResult<Pagination<Post>>> GetPosts([FromQuery] PostSpecificationParams postParams)
+    public async Task<ActionResult<Pagination<PostDto>>> GetPosts([FromQuery] PostSpecificationParams postParams)
     {
         var posts = await _postRepository.GetAllPosts();
         //Sort, Paging
@@ -37,19 +37,24 @@ namespace Api.Controllers
         var accId = Request.Headers["accountid"].ToString();
         var postsDto = _mapper.Map<List<Post>, List<PostDto>>(posts);
         //Sorting
-        postsDto = postsDto.OrderBy(x => x.CreatedDate).ToList();
+        postsDto = postsDto.Where(x => !x.IsDeleted).OrderByDescending(x => x.CreatedDate).ToList();
 
         //Paging
-        postsDto = postsDto.Skip(postParams.PageIndex - 1 * postParams.PageSize)
+        postsDto = postsDto.Skip((postParams.PageIndex - 1) * postParams.PageSize)
                     .Take(postParams.PageSize).ToList();
         
-
+        var maxCount = posts.Count;
+        
         postsDto = postsDto?.Select(x =>
         {
-            x.IsCurrentUserLiked = x.LikesList.Any(x => x.AccountId == Convert.ToInt32(accId));
+            x.LikesList = x.LikesList.Where(x => x.IsLiked).OrderByDescending(x => x.CreatedDate).ToList();
+            x.Comments = x.Comments.Where(x => !x.IsDeleted).OrderByDescending(x => x.CreatedDate).ToList();
+            x.IsCurrentUserLiked = x.LikesList.Any(x => x.AccountId == Convert.ToInt32(accId) && x.IsLiked);
             return x;
         }).ToList();
-        return Ok(postsDto);
+
+        var pagingObj = new Pagination<PostDto>(postParams.PageSize, postParams.PageIndex, maxCount, postsDto);
+        return Ok(pagingObj);
     }
 
     [HttpPost]
@@ -69,8 +74,11 @@ namespace Api.Controllers
         var post = await _postRepository.GetPostByIdAsync(id);
         if (post == null) return BadRequest(new ApiResponse(400));
         var postDto = _mapper.Map<Post, PostDto>(post);
-        postDto.IsCurrentUserLiked = postDto.LikesList.Any(x => x.AccountId == Convert.ToInt32(accId));
-        return Ok(_mapper.Map<Post, PostDto>(post));
+        postDto.LikesList = postDto.LikesList.Where(x => x.IsLiked).OrderByDescending(x => x.CreatedDate).ToList();
+        postDto.Comments = postDto.Comments.Where(x => !x.IsDeleted).OrderByDescending(x => x.CreatedDate).ToList();
+        postDto.IsCurrentUserLiked = postDto.LikesList.FirstOrDefault(x => x.AccountId == Convert.ToInt32(accId) && x.IsLiked) != null;
+        //postDto.IsCurrentUserLiked = postDto.LikesList.Any(x => x.AccountId == Convert.ToInt32(accId));
+        return Ok(postDto);
     }
 
     [HttpGet("user")]
@@ -100,18 +108,21 @@ namespace Api.Controllers
 
 
     [HttpPost("{id}/comment")]
-    public async Task<ActionResult> CreateComment(CommentRequestDto comment)
+    public async Task<ActionResult<List<CommentDto>>> CreateComment(CommentRequestDto comment)
     {
         comment.CreatedDate = DateTime.Now;
         var commentToCreate = _mapper.Map<CommentRequestDto, Comment>(comment);
         commentToCreate = await _commentRepository.CreateComment(commentToCreate);
-        return Ok(_mapper.Map<Comment, CommentDto>(commentToCreate));
+        var comments = await _commentRepository.GetCommentsForPost(comment.PostId);
+        comments = comments.Where(x => !x.IsDeleted).OrderByDescending(x => x.CreatedDate).ToList();
+        return Ok(_mapper.Map<List<Comment>, List<CommentDto>>(comments));
     }
 
     [HttpGet("{id}/comment")]
     public async Task<ActionResult<List<CommentDto>>> GetCommentByPost(int id)
     {
         var comments = await _commentRepository.GetCommentsForPost(id);
+        comments = comments.Where(x => !x.IsDeleted).OrderByDescending(x => x.CreatedDate).ToList();
         return Ok(_mapper.Map<List<Comment>, List<CommentDto>>(comments));
     }
 
@@ -121,7 +132,9 @@ namespace Api.Controllers
         commentRequestDto.CreatedDate = DateTime.Now;
         var commentToCreate = _mapper.Map<CommentRequestDto, Comment>(commentRequestDto);
         var commentUpdated = await _commentRepository.UpdateComment(commentToCreate);
-        return Ok(_mapper.Map<Comment, CommentDto>(commentUpdated));
+        var comments = await _commentRepository.GetCommentsForPost(commentRequestDto.PostId);
+        comments = comments.Where(x => !x.IsDeleted).OrderByDescending(x => x.CreatedDate).ToList();
+        return Ok(_mapper.Map<List<Comment>, List<CommentDto>>(comments));
     }
 
     [HttpDelete("{id}/comment/{commentid}")]
@@ -135,6 +148,7 @@ namespace Api.Controllers
     public async Task<ActionResult> GetLikesByPost(int id)
     {
         var likes = await _likesRepository.GetLikesByPost(id);
+        likes = likes.Where(x => x.IsLiked).ToList();
         return Ok(_mapper.Map<List<Like>, List<LikesDto>>(likes));
     }
 
@@ -144,7 +158,9 @@ namespace Api.Controllers
     {
         var likeObj = new Like { PostId = likesDto.PostId, LikedbyAccountId = likesDto.AccountId, CreatedDate = DateTime.Now, IsLiked = true };
         await _likesRepository.CreateLikeAsync(likeObj);
-        return Ok();
+        var likes = await _likesRepository.GetLikesByPost(likesDto.PostId);        
+        likes = likes.Where(x => x.IsLiked).ToList();
+        return Ok(_mapper.Map<List<Like>, List<LikesDto>>(likes));
     }
 
     [HttpPut("{id}/like/{likeid}")]

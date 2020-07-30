@@ -325,6 +325,8 @@
       height: 54px !important;
        width: 220px !important;
     }
+
+   
   }
 
 
@@ -333,6 +335,10 @@
     .post-preview > a > .post-title {
       font-size: 36px;
     }
+
+    .cursor:hover {
+      color: cadetblue
+  }
   }
   
   .floating-label-form-group {
@@ -469,9 +475,7 @@
     color: #007bff
 }
 
-.cursor:hover {
-    color: cadetblue
-}
+
 
 .cursor {
     cursor: pointer

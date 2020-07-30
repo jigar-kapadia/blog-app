@@ -7,9 +7,10 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { CreateCommentComponent } from './components/create-comment/create-comment.component';
 import { LikecommentsharecountComponent } from './components/likecommentsharecount/likecommentsharecount.component';
+import { LikeCommentBarComponent } from './components/like-comment-bar/like-comment-bar.component';
 
 @NgModule({
-  declarations: [HeaderComponent, FooterComponent, AppNavComponent, CreateCommentComponent, LikecommentsharecountComponent],
+  declarations: [HeaderComponent, FooterComponent, AppNavComponent, CreateCommentComponent, LikecommentsharecountComponent, LikeCommentBarComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -22,7 +23,8 @@ import { LikecommentsharecountComponent } from './components/likecommentsharecou
     FormsModule,
     RouterModule,
     CreateCommentComponent,
-    LikecommentsharecountComponent
+    LikecommentsharecountComponent,
+    LikeCommentBarComponent
   ]
 })
 export class SharedModule { }

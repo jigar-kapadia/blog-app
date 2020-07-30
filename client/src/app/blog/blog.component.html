@@ -1,12 +1,12 @@
 
-<div class="container">
+<div class="container" *ngIf="pagingData">
   <div class="row d-flex justify-content-around">
   <h1>Posts</h1>
-  <button class="btn btn-secondary" (click)="goToPostCreate()">Create Post</button></div>
+  <button class="btn btn-secondary" (click)="goToPostCreate(0)">Create Post</button></div>
   <div class="row">
     <div class="col-lg-8 col-md-10 mx-auto">
 
-      <div class="post-preview" *ngFor="let post of posts$ | async as list">
+      <div class="post-preview" *ngFor="let post of pagingData.data">
         <a [routerLink]="['post']" [queryParams]="{ id: post.postId }" queryParamsHandling="merge">
         
           <h3 class="post-title">
@@ -16,29 +16,50 @@
             {{ post.description | truncate }}
           </h4>
         </a>
-        <p class="post-meta">Posted by
-          <a href="#">{{post.username}}</a>
-          on {{post.createdDate | date:'MMMM d, y, h:mm:ss a' }}</p>
 
+        <div class="d-flex font-italic justify-content-between" style="font-size: smaller;">
+        <div class="post-meta">Posted by
+          <a href="#">{{post.username}}</a>
+          on {{post.createdDate | date:'MMMM d, y, h:mm:ss a' }}</div>
+
+          <div id="dvSce">
+          <ng-container *ngIf="post.accountId === +accountId">
+            <a class="ml-2" style="color: cadetblue !important;" (click)="goToPostCreate(post.postId)">Edit <i class="fa fa-edit ml-1"></i></a>
+            <a class="ml-2 text-danger" (click)="deletePost(post.postId)">Delete<i class="fa fa-trash-o ml-1"></i></a>
+          </ng-container>
+        </div>
+        </div>
           <app-likecommentsharecount
           [likes]="post.likesList.length"
           [comments]="post.comments.length"
           [shares]="2"
           ></app-likecommentsharecount>
 
-          <div class="bg-white pt-2">
+
+          <app-like-comment-bar
+      [post]="post" 
+        [showCommentBox]="showCommentBox"
+        (postLiked)="likePost($event)"
+      ></app-like-comment-bar>
+
+           <!-- <div class="bg-white pt-2">
             <div class="d-flex flex-row fs-12">
                 <div class="like p-2 cursor" [class.likedColor]="post.isCurrentUserLiked"><i class="fa fa-thumbs-o-up"></i><span class="ml-1">Like</span></div>
                 <div class="like p-2 cursor"><i class="fa fa-commenting-o"></i><span class="ml-1">Comment</span></div>
                 <div class="like p-2 cursor"><i class="fa fa-share"></i><span class="ml-1">Share</span></div>
             </div>
-        </div>
-      </div>
+        </div> -->
+      </div> 
+
+      
       <hr>
      
       <!-- Pager -->
       <div class="clearfix">
-        <a class="btn btn-primary float-right" href="#">Older Posts &rarr;</a>
+        <a class="btn btn-primary float-right" (click)="Paging('next')"
+        *ngIf="(pagingData.pageIndex * pagingData.pageSize) < pagingData.count"
+        >Older <i class="fa fa-arrow-right"></i></a>
+        <a class="btn btn-primary float-left" (click)="Paging('previous')" *ngIf="postParams.pageIndex > 1"><i class="fa fa-arrow-left mr-1"></i>Newer </a>
       </div>
     </div>
   </div>

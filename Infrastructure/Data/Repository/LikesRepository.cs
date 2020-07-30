@@ -36,7 +36,7 @@ namespace Infrastructure.Data.Repository
         {
             return await _appContext.Likes
             .Include(x => x.LikedbyAccount)
-            .Where(x => x.PostId == postId)
+            .Where(x => x.PostId == postId && x.IsLiked)
             .ToListAsync();
         }
 

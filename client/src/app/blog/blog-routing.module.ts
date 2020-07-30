@@ -6,11 +6,12 @@ import { BlogComponent } from './blog.component';
 import { PostComponent } from './post/post.component';
 import { CreatePostComponent } from './create-post/create-post.component';
 import { PostResolver } from '../core/resolvers/post.resolver';
+import { AuthGuard } from '../core/guards/auth.guard';
 
 const routes: Routes = [
   { path: '', component: BlogComponent },
-  { path: 'post', component: PostComponent, resolve : {data:PostResolver}  },
-  { path: 'create', component: CreatePostComponent }
+  { path: 'post', component: PostComponent },
+  { path: 'create', component: CreatePostComponent, canActivate : [AuthGuard] }
 ]
 
 @NgModule({

@@ -12,7 +12,7 @@ export class PostResolver implements Resolve<any> {
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
         //console.log(route.queryParams.id);
-        const postId = 1;//route.queryParams.id;
+        const postId = route.queryParams.id;
         const post = this.blogService.getPostById(postId);
         const comments = this.blogService.getCommentsByPost(postId);
         const likes = this.blogService.getLikesByPost(postId);
