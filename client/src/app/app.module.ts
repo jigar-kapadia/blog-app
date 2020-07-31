@@ -17,8 +17,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -31,12 +30,12 @@ import { NgxSpinnerModule } from 'ngx-spinner';
       positionClass : 'toast-bottom-right',
       preventDuplicates : true
     }),
-    //NgxSpinnerModule
+    NgxSpinnerModule
   ],
   providers: [PostResolver,
-    // { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi : true },
-    // { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi : true },
-    // { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
+     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi : true },
+     { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi : true },
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

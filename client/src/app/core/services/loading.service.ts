@@ -10,20 +10,20 @@ export class LoadingService {
   constructor(private spinnerService: NgxSpinnerService) { }
 
   busy(){
-    // this.onGoingRequestCount++;
-    // this.spinnerService.show(undefined, {
-    //   type: 'line-scale-pulse-out',
-    //   bdColor : 'rgba(255,255,255,0.7)',
-    //   color: '#333333',
-    //   size: 'medium'
-    // });
+    this.onGoingRequestCount++;
+    this.spinnerService.show(undefined, {
+      type: 'ball-beat',
+      bdColor : 'rgba(255,255,255,0.7)',
+      color: '#333333',
+      size: 'default'
+    });
   }
 
   idle(){
-    // this.onGoingRequestCount--;
-    // if(this.onGoingRequestCount <= 0)
-    // {
-    //   this.spinnerService.hide();
-    // }
+    this.onGoingRequestCount--;
+    if(this.onGoingRequestCount <= 0)
+    {
+      this.spinnerService.hide();
+    }
   }
 }

@@ -45,14 +45,15 @@ export class BlogService {
   }
 
   getPosts(){
-    const headers = new HttpHeaders()
-    .append('accountid', localStorage.getItem('id') ? localStorage.getItem('id') :'0');
+    // const headers = new HttpHeaders()
+    // .append('accountid', localStorage.getItem('id') ? localStorage.getItem('id') :'0');
     const params = new HttpParams()
     .set('sort', this.postParams.sort)
     .append('direction', this.postParams.direction)
     .set('pageIndex', this.postParams.pageIndex.toString())
     .set('pageSize', this.postParams.pageSize.toString());
-    return this.http.get(this.baseUrl + 'post',  { params, headers });
+    
+    return this.http.get(this.baseUrl + 'post',  { params });
   }
 
   getPostById(postId){

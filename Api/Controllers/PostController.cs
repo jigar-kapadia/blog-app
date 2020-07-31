@@ -34,7 +34,7 @@ namespace Api.Controllers
         var posts = await _postRepository.GetAllPosts();
         //Sort, Paging
         //var response = new Pagination<Post>(postParams.PageSize, postParams.PageIndex, 0, posts);
-        var accId = Request.Headers["accountid"].ToString();
+        var accId = Convert.ToString(Request.Headers["accountid"]) ?? string.Empty;
         var postsDto = _mapper.Map<List<Post>, List<PostDto>>(posts);
         //Sorting
         postsDto = postsDto.Where(x => !x.IsDeleted).OrderByDescending(x => x.CreatedDate).ToList();
@@ -49,7 +49,7 @@ namespace Api.Controllers
         {
             x.LikesList = x.LikesList.Where(x => x.IsLiked).OrderByDescending(x => x.CreatedDate).ToList();
             x.Comments = x.Comments.Where(x => !x.IsDeleted).OrderByDescending(x => x.CreatedDate).ToList();
-            x.IsCurrentUserLiked = x.LikesList.Any(x => x.AccountId == Convert.ToInt32(accId) && x.IsLiked);
+            x.IsCurrentUserLiked = !string.IsNullOrEmpty(accId) ? x.LikesList.Any(x => x.AccountId == Convert.ToInt32(accId) && x.IsLiked) : false ;
             return x;
         }).ToList();
 
